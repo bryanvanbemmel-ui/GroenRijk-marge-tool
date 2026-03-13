@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GroenRijk Marge Tool</title>
+
+<meta property="og:title" content="GroenRijk Marge Tool">
+<meta property="og:description" content="Handige marge calculator voor acties">
+<meta property="og:image" content="logo.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bryanvanbemmel-ui.github.io/GroenRijk-marge-tool/">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2f8f3a">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<style>
+body{font-family:Arial;background:#eef3ef;margin:0;padding:15px;}
+.logo{text-align:center;margin-bottom:5px;}
+.titel{text-align:center;color:#1f6e2e;font-size:20px;font-weight:600;margin-bottom:15px;}
+.card{background:white;max-width:420px;margin:auto;padding:18px;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,0.1);}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+label{font-size:12px;font-weight:bold;}
+input{width:100%;padding:10px;font-size:17px;border-radius:7px;border:1px solid #ccc;background:#fff6a8;}
+.result{margin-top:8px;padding:12px;border-radius:10px;text-align:center;font-weight:bold;font-size:22px;background:#d8f5dc;color:#1b7c2b;}
+.section{margin-top:14px;padding-top:10px;border-top:1px solid #eee;}
+.buttons{display:flex;gap:6px;margin-top:6px;}
+button{flex:1;padding:9px;border:none;border-radius:6px;background:#2f8f3a;color:white;font-weight:bold;cursor:pointer;}
+.share{margin-top:12px;width:100%;}
+.footer{text-align:center;font-size:11px;margin-top:12px;color:#777;}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="logo">
+<img src="logo.jpg" style="max-width:220px;">
+</div>
+
+<div class="titel">
+GroenRijk Marge Tool
+</div>
+
+<div class="grid">
+
+<div>
+<label>Inkoop €</label>
+<input id="inkoop" value="2.50">
+</div>
+
+<div>
+<label>Verkoop € incl btw</label>
+<input id="verkoop" value="5.99">
+</div>
+
+<div>
+<label>BTW %</label>
+<input id="btw" value="9">
+</div>
+
+</div>
+
+<div class="result" id="margeBox">
+Marge: -
+</div>
+
+<div class="section">
+
+<div class="grid">
+
+<div>
+<label>Actie aantal</label>
+<input id="aantal" value="3">
+</div>
+
+<div>
+<label>Actie prijs €</label>
+<input id="multiPrijs" value="17">
+</div>
+
+</div>
+
+<div class="buttons">
+<button onclick="setAantal(2)">2</button>
+<button onclick="setAantal(3)">3</button>
+<button onclick="setAantal(4)">4</button>
+</div>
+
+<div class="result" id="margeMultiBox">
+Actie marge: -
+</div>
+
+</div>
+
+<div class="section">
+
+<label>Gewenste marge %</label>
+<input id="gewenst" value="50">
+
+<div class="result" id="adviesPrijs">
+Adviesprijs: -
+</div>
+
+</div>
+
+<button class="share" onclick="deelApp()">
+🔗 Deel deze tool
+</button>
+
+<div class="footer">
+Tool gemaakt door <b>BvB</b>
+</div>
+
+</div>
+
+<script>
+
+function num(v){return parseFloat(v.replace(",", "."))}
+
+function setAantal(x){
+document.getElementById("aantal").value=x
+bereken()
+}
+
+function bereken(){
+
+let inkoop=num(document.getElementById("inkoop").value)
+let verkoop=num(document.getElementById("verkoop").value)
+let btw=num(document.getElementById("btw").value)
+let aantal=num(document.getElementById("aantal").value)
+let multiPrijs=num(document.getElementById("multiPrijs").value)
+let gewenst=num(document.getElementById("gewenst").value)
+
+if(!inkoop||!verkoop||!btw) return
+
+let verkoopEx=verkoop/(1+btw/100)
+let winst=verkoopEx-inkoop
+let marge=(winst/verkoopEx)*100
+
+let prijsPer=multiPrijs/aantal
+let verkoopActieEx=prijsPer/(1+btw/100)
+let winstActie=verkoopActieEx-inkoop
+let margeActie=(winstActie/verkoopActieEx)*100
+
+let verkoopExGewenst=inkoop/(1-gewenst/100)
+let advies=verkoopExGewenst*(1+btw/100)
+
+document.getElementById("margeBox").innerText="Marge: "+Math.round(marge)+" %"
+document.getElementById("margeMultiBox").innerText="Actie marge: "+Math.round(margeActie)+" %"
+document.getElementById("adviesPrijs").innerText="Adviesprijs: € "+advies.toFixed(2)
+
+opslaan()
+
+}
+
+function opslaan(){
+
+localStorage.setItem("inkoop",document.getElementById("inkoop").value)
+localStorage.setItem("verkoop",document.getElementById("verkoop").value)
+localStorage.setItem("btw",document.getElementById("btw").value)
+localStorage.setItem("aantal",document.getElementById("aantal").value)
+localStorage.setItem("multiPrijs",document.getElementById("multiPrijs").value)
+localStorage.setItem("gewenst",document.getElementById("gewenst").value)
+
+}
+
+function laden(){
+
+if(localStorage.getItem("inkoop"))document.getElementById("inkoop").value=localStorage.getItem("inkoop")
+if(localStorage.getItem("verkoop"))document.getElementById("verkoop").value=localStorage.getItem("verkoop")
+if(localStorage.getItem("btw"))document.getElementById("btw").value=localStorage.getItem("btw")
+if(localStorage.getItem("aantal"))document.getElementById("aantal").value=localStorage.getItem("aantal")
+if(localStorage.getItem("multiPrijs"))document.getElementById("multiPrijs").value=localStorage.getItem("multiPrijs")
+if(localStorage.getItem("gewenst"))document.getElementById("gewenst").value=localStorage.getItem("gewenst")
+
+}
+
+function deelApp(){
+
+if(navigator.share){
+
+navigator.share({
+title:"GroenRijk Marge Tool",
+url:"https://bryanvanbemmel-ui.github.io/GroenRijk-marge-tool/"
+})
+
+}else{
+
+navigator.clipboard.writeText("https://bryanvanbemmel-ui.github.io/GroenRijk-marge-tool/")
+alert("Link gekopieerd")
+
+}
+
+}
+
+document.querySelectorAll("input").forEach(el=>{
+el.addEventListener("input",bereken)
+})
+
+laden()
+bereken()
+
+if("serviceWorker" in navigator){
+navigator.serviceWorker.register("sw.js?v=3")
+}
+
+</script>
+
+</body>
+</html>
