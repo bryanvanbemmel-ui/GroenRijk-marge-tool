@@ -2,7 +2,12 @@
 self.addEventListener('install',e=>{
 e.waitUntil(
 caches.open('marge-tool').then(cache=>cache.addAll([
-'./','./index.html','./manifest.json','./icon-192.png','./icon-512.png'
+'./',
+'./index.html',
+'./manifest.json',
+'./icon-192.png',
+'./icon-512.png',
+'./logo.jpg'
 ]))
 )
 })

@@ -1,8 +1,8 @@
 {
   "name": "GroenRijk Marge Tool",
   "short_name": "Marge Tool",
-  "start_url": "./index.html",
   "display": "standalone",
+  "start_url": "./index.html",
   "background_color": "#eef3ef",
   "theme_color": "#2f8f3a",
   "icons": [

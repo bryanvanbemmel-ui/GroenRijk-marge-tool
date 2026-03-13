@@ -1,25 +1,99 @@
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GroenRijk Marge Tool</title>
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2f8f3a">
 
 <style>
-body{font-family:Arial;background:#eef3ef;margin:0;padding:15px}
-.card{background:white;max-width:420px;margin:auto;padding:18px;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,0.1)}
-.logo{text-align:center;font-size:22px;font-weight:bold;color:#2f8f3a;margin-bottom:10px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-label{font-size:12px;font-weight:bold}
-input{width:100%;padding:10px;font-size:17px;border-radius:7px;border:1px solid #ccc;background:#fff6a8}
-.section{margin-top:14px;padding-top:10px;border-top:1px solid #eee}
-.result{margin-top:8px;padding:12px;border-radius:10px;text-align:center;font-weight:bold;font-size:22px;background:#d8f5dc;color:#1b7c2b}
-.footer{text-align:center;font-size:11px;margin-top:12px;color:#777}
-button{flex:1;padding:8px;border:none;border-radius:6px;background:#2f8f3a;color:white;font-weight:bold}
-.buttons{display:flex;gap:6px;margin-top:6px}
+body{
+font-family:Arial;
+background:#eef3ef;
+margin:0;
+padding:15px;
+}
+
+.card{
+background:white;
+max-width:420px;
+margin:auto;
+padding:18px;
+border-radius:14px;
+box-shadow:0 6px 18px rgba(0,0,0,0.1);
+}
+
+.logo{
+text-align:center;
+margin-bottom:10px;
+}
+
+.logo img{
+max-width:220px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+label{
+font-size:12px;
+font-weight:bold;
+}
+
+input{
+width:100%;
+padding:10px;
+font-size:17px;
+border-radius:7px;
+border:1px solid #ccc;
+background:#fff6a8;
+}
+
+.result{
+margin-top:8px;
+padding:12px;
+border-radius:10px;
+text-align:center;
+font-weight:bold;
+font-size:22px;
+background:#d8f5dc;
+color:#1b7c2b;
+}
+
+.section{
+margin-top:14px;
+padding-top:10px;
+border-top:1px solid #eee;
+}
+
+.buttons{
+display:flex;
+gap:6px;
+margin-top:6px;
+}
+
+button{
+flex:1;
+padding:9px;
+border:none;
+border-radius:6px;
+background:#2f8f3a;
+color:white;
+font-weight:bold;
+}
+
+.footer{
+text-align:center;
+font-size:11px;
+margin-top:12px;
+color:#777;
+}
 </style>
 </head>
 
@@ -27,7 +101,9 @@ button{flex:1;padding:8px;border:none;border-radius:6px;background:#2f8f3a;color
 
 <div class="card">
 
-<div class="logo">GroenRijk Marge Tool</div>
+<div class="logo">
+<img src="logo.jpg">
+</div>
 
 <div class="grid">
 <div>
@@ -73,9 +149,12 @@ button{flex:1;padding:8px;border:none;border-radius:6px;background:#2f8f3a;color
 </div>
 
 <div class="section">
+
 <label>Gewenste marge %</label>
 <input id="gewenst" value="50">
+
 <div class="result" id="adviesPrijs">Adviesprijs: -</div>
+
 </div>
 
 <div class="footer">Tool gemaakt door <b>BvB</b></div>
@@ -120,7 +199,10 @@ document.getElementById("adviesPrijs").innerText="Adviesprijs: € "+advies.toFi
 
 }
 
-document.querySelectorAll("input").forEach(el=>{el.addEventListener("input",bereken)})
+document.querySelectorAll("input").forEach(el=>{
+el.addEventListener("input",bereken)
+})
+
 bereken()
 
 if("serviceWorker" in navigator){
