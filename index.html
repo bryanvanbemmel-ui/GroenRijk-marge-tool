@@ -115,7 +115,7 @@ Adviesprijs: -
 </button>
 
 <div class="footer">
-Tool gemaakt door <b>BvB</b>
+Tool gemaakt door <b>BvB Versie 2.0</b>
 </div>
 
 </div>
@@ -138,23 +138,35 @@ let aantal=num(document.getElementById("aantal").value)
 let multiPrijs=num(document.getElementById("multiPrijs").value)
 let gewenst=num(document.getElementById("gewenst").value)
 
-if(!inkoop||!verkoop||!btw) return
+// Adviesprijs altijd berekenen als inkoop + btw + gewenste marge zijn ingevuld
+if(inkoop && btw && gewenst < 100){
+let verkoopExGewenst=inkoop/(1-gewenst/100)
+let advies=verkoopExGewenst*(1+btw/100)
+document.getElementById("adviesPrijs").innerText="Adviesprijs: € "+advies.toFixed(2)
+}else{
+document.getElementById("adviesPrijs").innerText="Adviesprijs: -"
+}
 
+// Gewone marge alleen berekenen als verkoop is ingevuld
+if(inkoop && verkoop && btw){
 let verkoopEx=verkoop/(1+btw/100)
 let winst=verkoopEx-inkoop
 let marge=(winst/verkoopEx)*100
+document.getElementById("margeBox").innerText="Marge: "+Math.round(marge)+" %"
+}else{
+document.getElementById("margeBox").innerText="Marge: -"
+}
 
+// Actiemarge alleen berekenen als actieprijs is ingevuld
+if(inkoop && aantal && multiPrijs && btw){
 let prijsPer=multiPrijs/aantal
 let verkoopActieEx=prijsPer/(1+btw/100)
 let winstActie=verkoopActieEx-inkoop
 let margeActie=(winstActie/verkoopActieEx)*100
-
-let verkoopExGewenst=inkoop/(1-gewenst/100)
-let advies=verkoopExGewenst*(1+btw/100)
-
-document.getElementById("margeBox").innerText="Marge: "+Math.round(marge)+" %"
 document.getElementById("margeMultiBox").innerText="Actie marge: "+Math.round(margeActie)+" %"
-document.getElementById("adviesPrijs").innerText="Adviesprijs: € "+advies.toFixed(2)
+}else{
+document.getElementById("margeMultiBox").innerText="Actie marge: -"
+}
 
 opslaan()
 
@@ -208,7 +220,7 @@ laden()
 bereken()
 
 if("serviceWorker" in navigator){
-navigator.serviceWorker.register("sw.js?v=3")
+navigator.serviceWorker.register("sw.js?v=4")
 }
 
 </script>
